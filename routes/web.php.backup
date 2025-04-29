@@ -1,0 +1,25 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AuthController;
+
+// Test route
+Route::get('/test', function() {
+    return 'Test route is working!';
+});
+
+// Authentication Routes - Explicitly defined
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Make the root route accessible
+Route::get('/', function () {
+    return redirect()->route('invoices.index');
+});
+
+// Resources routes
+Route::resource('invoices', InvoiceController::class);
+Route::resource('customers', CustomerController::class);
